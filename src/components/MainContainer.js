@@ -5,23 +5,48 @@ import SearchBar from "./SearchBar";
 
 function MainContainer() {
 
-  const [stockList, setStockList] = useState([])
+  const [ stockList, setStockList] = useState([])
+  const [ isMyPortfolio, setIsMyPortofolio ] = useState([]);
+  const [ filter , setFilter ] = useState("");
+  const [ sort, setSort ] = useState("");
+  const [ selectedStock, setSelectedStock ] = useState([]);
 
   useEffect(() => {
     fetch("http://localhost:3001/stocks")
     .then( r => r.json() )
-    .then( data => setStockList(data) )
+    .then( data => {
+      setStockList(data)
+    })
   },[])
+
+  function onFilterSelect(item){
+    setFilter(item);
+  }
+
+  function onSortSelect(item){
+    setSort(item);
+  }
+
+  function onStockSelect(stock){
+    if(!selectedStock.includes(stock)){
+      setSelectedStock([...selectedStock,stock])
+    }
+  }
+
+  function onSellStock(stock){
+    const newStockList = selectedStock.filter( item => item.id!==stock.id)
+    setSelectedStock(newStockList)
+  }
 
   return (
     <div>
-      <SearchBar />
+      <SearchBar onSortSelect={onSortSelect} onFilterSelect={onFilterSelect}/>
       <div className="row">
         <div className="col-8">
-          <StockContainer stockList={stockList} />
+          <StockContainer stockList={stockList} filter={filter} sort={sort} onStockSelect={onStockSelect} />
         </div>
         <div className="col-4">
-          <PortfolioContainer />
+          <PortfolioContainer selectedStock={selectedStock} onSellStock={onSellStock}/>
         </div>
       </div>
     </div>
