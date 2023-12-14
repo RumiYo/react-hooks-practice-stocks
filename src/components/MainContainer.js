@@ -6,7 +6,6 @@ import SearchBar from "./SearchBar";
 function MainContainer() {
 
   const [ stockList, setStockList] = useState([])
-  const [ isMyPortfolio, setIsMyPortofolio ] = useState([]);
   const [ filter , setFilter ] = useState("");
   const [ sort, setSort ] = useState("");
   const [ selectedStock, setSelectedStock ] = useState([]);

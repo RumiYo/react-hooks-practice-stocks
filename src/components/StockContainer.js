@@ -4,12 +4,13 @@ import Stock from "./Stock";
 function StockContainer({ stockList, filter, sort, onStockSelect }) {
 
   let filteredList = stockList;
-  let sortedList = stockList;
 
   if(filter!==""){
     filteredList = stockList.filter(item => item.type===filter)
   }
   
+  let sortedList = filteredList;
+
   if(sort==="Alphabetically"){
     sortedList = filteredList.sort((a,b) => {
       if (a.name < b.name){
@@ -23,7 +24,7 @@ function StockContainer({ stockList, filter, sort, onStockSelect }) {
   }if(sort==="Price"){
     sortedList = filteredList.sort((a,b) => a.price - b.price );
   }
-  
+
   return (
     <div>
       <h2>Stocks</h2>
